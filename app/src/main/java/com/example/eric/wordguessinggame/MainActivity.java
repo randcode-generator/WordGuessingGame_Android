@@ -3,7 +3,9 @@ package com.example.eric.wordguessinggame;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     WordList wordList = null;
     BlockManager blockManager = null;
     int offsetRange = 20;
+    int offsetFromDeviceButtom = 500;
+    int offsetFromDeviceEdge = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +79,16 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     }
 
     private void initialize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int deviceWidth = size.x;
+        int deviceHeight = size.y;
         char[] c = wordList.getRandomWordAsArray();
         for (int i = 0; i < c.length; i++) {
             Random r = new Random();
-            int x = r.nextInt(300);
-            int y = r.nextInt(400);
+            int x = r.nextInt(deviceWidth - offsetFromDeviceEdge);
+            int y = r.nextInt(deviceHeight - offsetFromDeviceButtom);
 
             BlockView block = new BlockView(this);
             block.setLetter(c[i]);
