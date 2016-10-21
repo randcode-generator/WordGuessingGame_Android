@@ -1,7 +1,7 @@
 package com.example.eric.wordguessinggame;
 
 import android.app.Activity;
-import android.widget.ImageView;
+import android.graphics.Point;
 
 import java.util.ArrayList;
 
@@ -25,14 +25,19 @@ public class BlockManager {
         this.listener = listener;
     }
 
+    public void draw() {
+        Point size = System.getDisplaySize(mainActivity);
+        int deviceHeight = size.y;
+        for(int i = 0; i < listofblocks.size(); i++) {
+            BlockView blockView = listofblocks.get(i);
+            blockView.setX(startingX + (i * 90));
+            blockView.setY(deviceHeight - 200);
+        }
+    }
+
     public void add(BlockView blockView) {
         listofblocks.add(blockView);
-        ImageView bucket = (ImageView) mainActivity.findViewById(R.id.bucket);
-        float bucketY = bucket.getY();
-        for(int i = 0; i < listofblocks.size(); i++) {
-            blockView.setX(startingX + (i * 90));
-            blockView.setY(bucketY + 132);
-        }
+        draw();
 
         blockView.setOnTouchListener(null);
         currentWord.append(blockView.getLetter());

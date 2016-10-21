@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -12,12 +13,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends Activity implements View.OnTouchListener {
 
-    WordList wordList = null;
-    BlockManager blockManager = null;
+    static WordList wordList = null;
+    static BlockManager blockManager = null;
+    static ArrayList<BlockView> arrayBlocks = new ArrayList<>();
     int offsetRange = 20;
     int offsetFromDeviceButtom = 500;
     int offsetFromDeviceEdge = 200;
@@ -42,7 +45,37 @@ public class MainActivity extends Activity implements View.OnTouchListener {
                 startOver();
             }
         });
-        newWord();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(arrayBlocks.size() == 0) {
+            newWord();
+            return;
+        }
+
+        Point size = System.getDisplaySize(this);
+        int deviceWidth = size.x;
+        int deviceHeight = size.y;
+        RelativeLayout l = (RelativeLayout) findViewById(R.id.activity_main);
+        for (int i = 0; i < arrayBlocks.size(); i++) {
+            BlockView v = arrayBlocks.get(i);
+            v.setOnTouchListener(this);
+            Random r = new Random();
+            int x = r.nextInt(deviceWidth - offsetFromDeviceEdge);
+            int y = r.nextInt(deviceHeight - offsetFromDeviceButtom);
+            v.setX(x);
+            v.setY(y);
+            l.addView(v);
+        }
+        blockManager.draw();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        removeAllBlocks();
     }
 
     private void removeAllBlocks() {
@@ -79,11 +112,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     }
 
     private void initialize() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
+        Point size = System.getDisplaySize(this);
         int deviceWidth = size.x;
         int deviceHeight = size.y;
+        arrayBlocks.clear();
         char[] c = wordList.getRandomWordAsArray();
         for (int i = 0; i < c.length; i++) {
             Random r = new Random();
@@ -99,6 +131,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             block.setY(y);
             RelativeLayout l = (RelativeLayout) findViewById(R.id.activity_main);
             l.addView(block);
+            arrayBlocks.add(block);
         }
     }
 
