@@ -3,6 +3,7 @@ package com.example.eric.wordguessinggame;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Point;
 import android.media.Image;
 import android.os.Bundle;
@@ -43,6 +44,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             public void onClick(View v) {
                 removeAllBlocks();
                 startOver();
+            }
+        });
+        ImageView im = (ImageView) findViewById(R.id.helpButton);
+        im.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(intent);
             }
         });
     }
