@@ -28,15 +28,6 @@
         android:id="@+id/bucket"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="Start Over"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
-        android:id="@+id/startoverButton"
-        android:layout_alignBottom="@+id/bucket"
-        android:layout_toStartOf="@+id/newWordButton" />
-
     <ImageView
         android:src="@drawable/helpbutton"
         android:id="@+id/helpButton"
@@ -45,4 +36,14 @@
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Start Over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:id="@+id/startoverButton"
+        android:layout_alignBaseline="@+id/newWordButton"
+        android:layout_alignBottom="@+id/newWordButton"
+        android:layout_toStartOf="@+id/newWordButton" />
 </RelativeLayout>
