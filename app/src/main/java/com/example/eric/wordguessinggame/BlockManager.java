@@ -9,7 +9,7 @@ public class BlockManager {
     public interface BlockManagerWordMatchedListener {
         void wordMatched();
     }
-    private int startingX = 100;
+    private double startingX = 100;
     private String word = null;
     private StringBuilder currentWord = new StringBuilder();
     private BlockManagerWordMatchedListener listener;
@@ -28,9 +28,11 @@ public class BlockManager {
     public void draw() {
         Point size = System.getDisplaySize(mainActivity);
         int deviceHeight = size.y;
-        for(int i = 0; i < listofblocks.size(); i++) {
+        int deviceWidth = size.x;
+        startingX = (deviceWidth / 2.0) - ((listofblocks.size() / 2.0) * 90.0);
+        for (int i = 0; i < listofblocks.size(); i++) {
             BlockView blockView = listofblocks.get(i);
-            blockView.setX(startingX + (i * 90));
+            blockView.setX((float)startingX + (i * 90));
             blockView.setY(deviceHeight - 200);
         }
     }
