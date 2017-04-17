@@ -6,6 +6,10 @@ public class WordList {
     private String[] words = {"ARGUE", "ARRAY", "FUN", "FUNNY"};
     String word = "";
     public WordList() {
+        setNewWord();
+    }
+
+    public void setNewWord() {
         Random r = new Random();
         int index = r.nextInt(words.length);
         word = words[index];

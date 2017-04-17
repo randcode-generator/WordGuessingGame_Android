@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WordGuessingGame</string>
     <string name="title_activity_help">HelpActivity</string>
+    <string name="bucket">bucket</string>
+    <string name="helpbutton">help button</string>
+    <string name="newword">New Word</string>
+    <string name="startover">Start Over</string>
+
 </resources>
