@@ -1,0 +1,6 @@
+build
+.idea
+.gradle
+local.properties
+WordGuessingGame_Android.iml
+app/app.iml
