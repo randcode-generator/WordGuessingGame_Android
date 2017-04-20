@@ -3,8 +3,9 @@ package com.example.eric.wordguessinggame;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +16,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     WordManager wordManager = new WordManager();
     BlockManager blockManager = new BlockManager(this);
     BoardManager boardManager = new BoardManager(this);
-    int offsetRange = 20;
-    PointF bucketPosition;
+    RectF bucketRect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         float bucketX = locations[0];
         float bucketY = locations[1];
 
-        bucketPosition = new PointF(bucketX, bucketY);
+        bucketRect = new RectF(bucketX + 40, bucketY + 40,
+                bucketX + bucketImage.getWidth(),
+                bucketY + bucketImage.getHeight());
     }
 
     private void removeAllBlocks() {
@@ -127,10 +129,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
                 view.setX(blockX);
                 view.setY(blockY);
-                if (blockX >= bucketPosition.x - offsetRange &&
-                        blockX <= bucketPosition.x + offsetRange &&
-                        blockY >= bucketPosition.y - offsetRange &&
-                        blockY <= bucketPosition.y + offsetRange) {
+                Log.d("bucket", bucketRect.left + " " + bucketRect.top);
+                Log.d("block", blockX + " " + blockY);
+
+                boolean didIntersect = RectF.intersects(
+                        new RectF(X, Y,
+                                blockX + view.getWidth(), blockY + view.getHeight()),
+                        bucketRect);
+                if (didIntersect) {
                     boardManager.removeBlock((BlockView) view);
                     blockManager.add((BlockView) view);
                 }
