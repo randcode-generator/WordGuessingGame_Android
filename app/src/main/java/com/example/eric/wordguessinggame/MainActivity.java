@@ -12,9 +12,9 @@ import android.widget.ImageView;
 
 
 public class MainActivity extends Activity implements View.OnTouchListener {
-    static WordList wordList = new WordList();
-    static BlockManager blockManager = new BlockManager();
-    static BoardManager boardManager = new BoardManager();
+    WordManager wordManager = new WordManager();
+    BlockManager blockManager = new BlockManager(this);
+    BoardManager boardManager = new BoardManager(this);
     int offsetRange = 20;
     PointF bucketPosition;
 
@@ -48,11 +48,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             }
         });
 
-        blockManager.setWordList(wordList);
-        boardManager.setWordList(wordList);
+        blockManager.setWordList(wordManager);
+        boardManager.setWordList(wordManager);
 
-        boardManager.setMainActivity(this);
-        blockManager.setMainActivity(this);
         blockManager.setOnWordMatchedListener(new BlockManager.BlockManagerWordMatchedListener() {
             @Override
             public void wordMatched() {
@@ -66,8 +64,22 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         });
 
         if (savedInstanceState == null) {
-            boardManager.initialize();
+            boardManager.initializeBoardWithNewWord();
+            blockManager.initialize();
+        } else {
+            boardManager = savedInstanceState.getParcelable("boardManager");
+            blockManager = savedInstanceState.getParcelable("blockManager");
+            wordManager = savedInstanceState.getParcelable("wordManager");
+            boardManager.reinitializeBoard(this);
+            blockManager.reinitialize(this);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable("boardManager", boardManager);
+        outState.putParcelable("blockManager", blockManager);
+        outState.putParcelable("wordManager", wordManager);
     }
 
     @Override
@@ -90,13 +102,13 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     private void newWord() {
         removeAllBlocks();
-        wordList.setNewWord();
+        wordManager.setNewWord();
         startOver();
     }
 
     private void startOver() {
         removeAllBlocks();
-        boardManager.initialize();
+        boardManager.initializeBoardWithNewWord();
     }
 
     float dX, dY;
@@ -119,7 +131,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
                         blockX <= bucketPosition.x + offsetRange &&
                         blockY >= bucketPosition.y - offsetRange &&
                         blockY <= bucketPosition.y + offsetRange) {
-                    boardManager.removeBlock(view);
+                    boardManager.removeBlock((BlockView) view);
                     blockManager.add((BlockView) view);
                 }
                 break;

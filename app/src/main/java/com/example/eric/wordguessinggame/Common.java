@@ -8,7 +8,7 @@ public abstract class Common {
     protected int offsetFromDeviceButtom = 500;
     protected int offsetFromDeviceEdge = 200;
     protected Activity mainActivity;
-    protected WordList wordList = null;
+    protected WordManager wordManager = null;
 
     BlockView createNewBlock(View.OnTouchListener l, char letter, float x, float y) {
         BlockView block = new BlockView(mainActivity);
@@ -22,7 +22,7 @@ public abstract class Common {
     }
 
     abstract void removeAllBlocks();
-    void setWordList(WordList w) {
-        wordList = w;
+    void setWordList(WordManager w) {
+        wordManager = w;
     }
 }
