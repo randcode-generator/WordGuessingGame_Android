@@ -17,7 +17,7 @@ public abstract class Common {
     protected WordManager wordManager = null;
 
     ArrayList<IndefiniteObservable.Subscription> subscriptions = new ArrayList<>();
-    MotionRuntime runtime = new MotionRuntime();
+    protected MotionRuntime runtime = null;
 
     BlockView createNewBlock(char letter, float x, float y) {
         BlockView block = new BlockView(mainActivity);

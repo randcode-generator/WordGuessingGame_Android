@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
+import com.google.android.material.motion.MotionRuntime;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,6 +19,7 @@ public class BoardManager extends Common implements Parcelable {
 
     public BoardManager(Activity a) {
         this.mainActivity = a;
+        runtime = new MotionRuntime();
     }
 
     protected BoardManager(Parcel in) {
@@ -24,6 +27,7 @@ public class BoardManager extends Common implements Parcelable {
         c = new char[20];
         in.readList(arrayBlocksChar, Character.class.getClassLoader());
         in.readCharArray(c);
+        runtime = new MotionRuntime();
     }
 
     public static final Creator<BoardManager> CREATOR = new Creator<BoardManager>() {
@@ -88,6 +92,10 @@ public class BoardManager extends Common implements Parcelable {
     public void initializeBoardWithNewWord() {
         c = wordManager.getRandomWordAsArray();
         initializeBoard();
+    }
+
+    public MotionRuntime getRuntime() {
+        return runtime;
     }
 
     public void removeBlock(BlockView v) {

@@ -8,7 +8,12 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.motion.Interaction;
+import com.google.android.material.motion.MotionRuntime;
+import com.google.android.material.motion.interactions.Draggable;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlockManager extends Common implements Parcelable {
     private StringBuilder currentWord = new StringBuilder();
@@ -55,6 +60,10 @@ public class BlockManager extends Common implements Parcelable {
         this.listener = listener;
     }
 
+    public void setRuntime(MotionRuntime runtime) {
+        this.runtime = runtime;
+    }
+
     public void initialize() {
         draw();
     }
@@ -91,10 +100,14 @@ public class BlockManager extends Common implements Parcelable {
 
 
     public void add(BlockView blockView) {
+        List<Draggable> interactions = runtime.interactions(blockView, Draggable.class);
+        for (Interaction i: interactions) {
+            i.enabled.write(false);
+        }
+
         arrayBlocks.add(blockView);
         arrayBlocksChar.add(blockView.getLetter());
 
-        //blockView.setOnTouchListener(null);
         currentWord.append(blockView.getLetter());
         ConstraintLayout c = (ConstraintLayout) mainActivity.findViewById(R.id.block2);
         c.addView(blockView);

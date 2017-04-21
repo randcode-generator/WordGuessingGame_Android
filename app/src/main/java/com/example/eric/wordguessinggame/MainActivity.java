@@ -53,6 +53,7 @@ public class MainActivity extends Activity {
 
         blockManager.setWordList(wordManager);
         boardManager.setWordList(wordManager);
+        blockManager.setRuntime(boardManager.getRuntime());
 
         blockManager.setOnWordMatchedListener(new BlockManager.BlockManagerWordMatchedListener() {
             @Override
