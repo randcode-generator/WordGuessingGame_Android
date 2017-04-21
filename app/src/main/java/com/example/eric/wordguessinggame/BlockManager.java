@@ -83,7 +83,7 @@ public class BlockManager extends Common implements Parcelable {
     public void convertToBlock() {
         ConstraintLayout c = (ConstraintLayout) mainActivity.findViewById(R.id.block2);
         for(int i = 0; i < arrayBlocksChar.size(); i++) {
-            BlockView block = createNewBlock((View.OnTouchListener) mainActivity, arrayBlocksChar.get(i), 0, 0);
+            BlockView block = createNewBlock(arrayBlocksChar.get(i), 0, 0);
             arrayBlocks.add(block);
             c.addView(block);
         }
@@ -94,7 +94,7 @@ public class BlockManager extends Common implements Parcelable {
         arrayBlocks.add(blockView);
         arrayBlocksChar.add(blockView.getLetter());
 
-        blockView.setOnTouchListener(null);
+        //blockView.setOnTouchListener(null);
         currentWord.append(blockView.getLetter());
         ConstraintLayout c = (ConstraintLayout) mainActivity.findViewById(R.id.block2);
         c.addView(blockView);

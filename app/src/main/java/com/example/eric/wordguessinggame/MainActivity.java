@@ -3,6 +3,7 @@ package com.example.eric.wordguessinggame;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.material.motion.MotionObserver;
 
-public class MainActivity extends Activity implements View.OnTouchListener {
+
+public class MainActivity extends Activity {
     WordManager wordManager = new WordManager();
     BlockManager blockManager = new BlockManager(this);
     BoardManager boardManager = new BoardManager(this);
@@ -113,35 +116,30 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         boardManager.initializeBoardWithNewWord();
     }
 
-    float dX, dY;
-    public boolean onTouch(View view, MotionEvent event) {
-        final int X = (int) event.getRawX();
-        final int Y = (int) event.getRawY();
+    public abstract class BlockObserver<T> extends MotionObserver<T> {
+        BlockView block;
 
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                dX = view.getX() - X;
-                dY = view.getY() - Y;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float blockX = X + dX;
-                float blockY = Y + dY;
+        public void setBlock(BlockView block) {
+            this.block = block;
+        }
+    }
 
-                view.setX(blockX);
-                view.setY(blockY);
-                Log.d("bucket", bucketRect.left + " " + bucketRect.top);
-                Log.d("block", blockX + " " + blockY);
+    public BlockObserver<PointF> addObserver() {
+        return new BlockObserver<PointF>() {
+            @Override
+            public void next(PointF p) {
+                if(bucketRect == null)
+                    return;
 
                 boolean didIntersect = RectF.intersects(
-                        new RectF(X, Y,
-                                blockX + view.getWidth(), blockY + view.getHeight()),
+                        new RectF(p.x, p.y,
+                                p.x + block.getWidth(), p.y + block.getHeight()),
                         bucketRect);
                 if (didIntersect) {
-                    boardManager.removeBlock((BlockView) view);
-                    blockManager.add((BlockView) view);
+                    boardManager.removeBlock(block);
+                    blockManager.add(block);
                 }
-                break;
-        }
-        return true;
+            }
+        };
     }
 }

@@ -58,7 +58,7 @@ public class BoardManager extends Common implements Parcelable {
             int x = r.nextInt(deviceWidth - offsetFromDeviceEdge);
             int y = r.nextInt(deviceHeight - offsetFromDeviceButtom);
 
-            BlockView block = createNewBlock((View.OnTouchListener)mainActivity, c[i], x, y);
+            BlockView block = createNewBlock(c[i], x, y);
             arrayBlocksChar.add(c[i]);
 
             ConstraintLayout l = (ConstraintLayout) mainActivity.findViewById(R.id.board);
@@ -77,8 +77,7 @@ public class BoardManager extends Common implements Parcelable {
             int x = r.nextInt(deviceWidth - offsetFromDeviceEdge);
             int y = r.nextInt(deviceHeight - offsetFromDeviceButtom);
 
-            BlockView block = createNewBlock((View.OnTouchListener)mainActivity,
-                    arrayBlocksChar.get(i), x, y);
+            BlockView block = createNewBlock(arrayBlocksChar.get(i), x, y);
 
             ConstraintLayout l = (ConstraintLayout) mainActivity.findViewById(R.id.board);
             l.addView(block);
