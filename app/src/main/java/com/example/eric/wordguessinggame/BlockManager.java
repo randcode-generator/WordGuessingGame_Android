@@ -100,7 +100,7 @@ public class BlockManager extends Common implements Parcelable {
 
 
     public void add(BlockView blockView) {
-        List<Draggable> interactions = runtime.interactions(blockView, Draggable.class);
+        List<Draggable> interactions = runtime.interactions(Draggable.class, blockView);
         for (Interaction i: interactions) {
             i.enabled.write(false);
         }

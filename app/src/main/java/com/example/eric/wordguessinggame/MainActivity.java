@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.material.motion.MotionBuilder;
 import com.google.android.material.motion.MotionObserver;
 
 
@@ -117,7 +118,7 @@ public class MainActivity extends Activity {
         boardManager.initializeBoardWithNewWord();
     }
 
-    public abstract class BlockObserver<T> extends MotionObserver<T> {
+    public abstract class BlockObserver<T> extends MotionObserver.SimpleMotionObserver<T> {
         BlockView block;
 
         public void setBlock(BlockView block) {
